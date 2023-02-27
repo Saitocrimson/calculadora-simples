@@ -1,0 +1,58 @@
+#campoC{
+    width: 600px;
+    height:700px;
+    background-color:slateblue;
+    margin:0;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    flex-direction: column;
+   
+}
+
+
+
+#campoNum{
+    width: 448px;
+    height:65px;
+    background-color: aquamarine;
+    border: 0.25em solid black;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    flex-direction: column;
+}
+#campoTela{
+
+    width: 430px;
+    height:46px;
+    background-color: azure;
+}
+#campoTeclado{
+    width: 450px;
+    height:550px;
+    background-color:slateblue;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-wrap: wrap;
+    align-items:flex-start;
+    border:3px solid black;
+}
+.formatoBotaos{
+    width: 112.5px;
+    height:110px;
+    background-color:seagreen;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+
+}
+.formatoBotaos:hover{
+    background-color: cadetblue;
+    cursor: pointer;
+
+}
