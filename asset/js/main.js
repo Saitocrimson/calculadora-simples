@@ -1,6 +1,8 @@
 var painel=document.getElementById("campoTela")
 var lista=[];
 var listaNumso=[];
+var simbolos=[];
+var expressao=[]
 var num="";
 
 function meunumero(n1)
@@ -27,7 +29,7 @@ function definepainel(event){
     listaNumso.push(obj.dataset.simbolo)
     painel.innerHTML+=obj.dataset.simbolo+" ";
     if(obj.dataset.simbolo=="(-1)*"){
-        meunumero("_")
+        meunumero("x")
     }else{
         if(obj.dataset.simbolo!="+" && 
         obj.dataset.simbolo!="*"&&
@@ -36,10 +38,14 @@ function definepainel(event){
         obj.dataset.simbolo!="%"){
             meunumero(obj.dataset.simbolo)
            
-        }else{
+        }
+        
+        else{
+             simbolos.push(obj.dataset.simbolo);
               lista.push(num); 
               num=""
               console.log(lista);
+              console.log(simbolos);
               
         }
        
@@ -47,7 +53,33 @@ function definepainel(event){
     
     }
     }
-    
+
+
+function igual(){
+
+    for(var i=0;i<lista.length;i++){
+        if(lista[i].match(/./)==1){
+            expressao.push(parseFloat(lista[i]))
+            console.log(expressao);
+        }if(lista[i].match(/x/)){
+            lista[i].slice(0,1);
+            var n3=lista[i].slice(1,lista[i].length);
+            parseFloat(n3)
+            expressao.push(n3*(-1));
+            console.log(expressao);
+        }else{
+            expressao.push(parseFloat(lista[i]));
+            console.log(expressao);
+        }
+        
+    }
+  
+   lista=[]
+   listaNumso=[]
+   expressao=[]
+   simbolos=[]
+}
+
 
 function limpaUm(){
     listaNumso.pop();  
@@ -87,7 +119,7 @@ function inicia(){
     document.getElementById("c17").addEventListener("click",definepainel)
     document.getElementById("c18").addEventListener("click",definepainel)
     document.getElementById("c19").addEventListener("click",definepainel)
-    document.getElementById("c20").addEventListener("click",definepainel)
+    document.getElementById("c20").addEventListener("click",igual)
 
 
 
