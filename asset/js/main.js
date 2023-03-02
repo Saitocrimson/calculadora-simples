@@ -4,6 +4,8 @@ var listaNumso=[];
 var simbolos=[];
 var expressao=[]
 var num="";
+var listanumstr=['1','2','3','4','5','0','6','7','8','9']
+
 
 function meunumero(n1)
 {
@@ -20,48 +22,92 @@ function verifica(n2){
         lista.push(num)
            num="";
     }
- 
-
-
 }
+function mmmm(n4){
+    if(n4=="--" )return true
+    for(var compara of listanumstr){
+        if(compara==n4){
+            return true
+        }
+    }
+    return false
+}
+
+
+
 function definepainel(event){
     var obj=event.target;
     listaNumso.push(obj.dataset.simbolo)
     painel.innerHTML+=obj.dataset.simbolo+" ";
-    if(obj.dataset.simbolo=="(-1)*"){
-        meunumero("x")
-    }else{
+    if(mmmm(listaNumso[0])==false){
+        alert("pppp")
+        painel.innerHTML="";
+        listaNumso.pop();
+    }
+    if(obj.dataset.simbolo=="--"){
+        meunumero("-");
+
+    }
+    else{
+        
         if(obj.dataset.simbolo!="+" && 
         obj.dataset.simbolo!="*"&&
         obj.dataset.simbolo!="/" &&
         obj.dataset.simbolo!="-" &&
-        obj.dataset.simbolo!="%"){
+        obj.dataset.simbolo!="%" ){
+    
             meunumero(obj.dataset.simbolo)
            
         }
         
         else{
              simbolos.push(obj.dataset.simbolo);
-              lista.push(num); 
-              num=""
-              console.log(lista);
-              console.log(simbolos);
+              lernum()
+              
+              
+             
               
         }
        
         
     
     }
+   
     }
 
 
-function igual(){
+function valida(){
+    var tam=listaNumso.length-1;
+    
+    if(listaNumso[tam]=="*" || 
+    listaNumso[tam]=="/" || 
+    listaNumso[tam]=="-" || 
+    listaNumso[tam]=="+" || 
+    listaNumso[tam]=="--" ||listaNumso[tam-1]=="--" &&
+    mmmm(listaNumso[tam-2])==true
+    ){
+        alert("operacao invalida!!!")
+    }else{
+        igual()
+    }
 
+
+
+}
+
+function lernum(){ 
+lista.push(num)
+num=""
+}
+function igual(){
+    lernum();
+    console.log(lista);
+    console.log(listaNumso);
     for(var i=0;i<lista.length;i++){
         if(lista[i].match(/./)==1){
             expressao.push(parseFloat(lista[i]))
             console.log(expressao);
-        }if(lista[i].match(/x/)){
+        }if(lista[i].match(/--/)){
             lista[i].slice(0,1);
             var n3=lista[i].slice(1,lista[i].length);
             parseFloat(n3)
@@ -74,10 +120,7 @@ function igual(){
         
     }
   
-   lista=[]
-   listaNumso=[]
    expressao=[]
-   simbolos=[]
 }
 
 
@@ -102,6 +145,7 @@ function inicia(){
         painel.innerHTML="";
         lista=[];
         listaNumso=[];
+        simbolos=[];
     })
     document.getElementById("c4").addEventListener("click",definepainel)
     document.getElementById("c5").addEventListener("click",definepainel)
@@ -119,7 +163,7 @@ function inicia(){
     document.getElementById("c17").addEventListener("click",definepainel)
     document.getElementById("c18").addEventListener("click",definepainel)
     document.getElementById("c19").addEventListener("click",definepainel)
-    document.getElementById("c20").addEventListener("click",igual)
+    document.getElementById("c20").addEventListener("click",valida)
 
 
 
