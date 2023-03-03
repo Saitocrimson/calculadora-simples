@@ -6,24 +6,27 @@ var expressao=[]
 var num="";
 var listanumstr=['1','2','3','4','5','0','6','7','8','9']
 
-
+//concatena o numero
 function meunumero(n1)
 {
     num+=n1;
 }
+
+//refaz a lista
 function verifica(n2){
-    
     if(n2!="+" && 
        n2!="*"&&
-        n2!="/" && 
+       n2!="/" && 
        n2!="%"){
-        meunumero(n2)
+            meunumero(n2)
     }else{
-        lista.push(num)
-           num="";
+            lista.push(num)
+            num="";
     }
 }
-function mmmm(n4){
+
+//valida o primeiro numero digitado
+function validaPrimeiro(n4){
     if(n4=="--" )return true
     for(var compara of listanumstr){
         if(compara==n4){
@@ -34,7 +37,7 @@ function mmmm(n4){
 }
 
 
-
+//pega os valores digitados e separa
 function definepainel(event){
     var obj=event.target;
     listaNumso.push(obj.dataset.simbolo)
@@ -49,56 +52,45 @@ function definepainel(event){
 
     }
     else{
-        
         if(obj.dataset.simbolo!="+" && 
         obj.dataset.simbolo!="*"&&
         obj.dataset.simbolo!="/" &&
         obj.dataset.simbolo!="-" &&
         obj.dataset.simbolo!="%" ){
-    
             meunumero(obj.dataset.simbolo)
-           
         }
-        
         else{
              simbolos.push(obj.dataset.simbolo);
-              lernum()
-              
-              
-             
-              
+              lernum()         
         }
-       
-        
-    
     }
    
-    }
+}
 
-
+//verifica antes da operação se o ultimo caracter e um numero
 function valida(){
     var tam=listaNumso.length-1;
-    
     if(listaNumso[tam]=="*" || 
     listaNumso[tam]=="/" || 
     listaNumso[tam]=="-" || 
     listaNumso[tam]=="+" || 
     listaNumso[tam]=="--" ||listaNumso[tam-1]=="--" &&
-    mmmm(listaNumso[tam-2])==true
+    validaPrimeiro(listaNumso[tam-2])==true
     ){
         alert("operacao invalida!!!")
     }else{
         igual()
     }
-
-
-
 }
 
+//insere na lista
 function lernum(){ 
-lista.push(num)
-num=""
+    lista.push(num)
+    num=""
 }
+
+
+//transforma os caracteres em numeros
 function igual(){
     lernum();
     console.log(lista);
@@ -123,7 +115,7 @@ function igual(){
    expressao=[]
 }
 
-
+//remove apenas um numero
 function limpaUm(){
     listaNumso.pop();  
     lista=[];
@@ -141,7 +133,8 @@ function limpaUm(){
 function inicia(){
     document.getElementById("c1").addEventListener("click",definepainel)
     document.getElementById("c2").addEventListener("click",limpaUm)
-    document.getElementById("c3").addEventListener("click",function(){
+    document.getElementById("c3").addEventListener("click",function() {
+        //limpa tudo
         painel.innerHTML="";
         lista=[];
         listaNumso=[];
