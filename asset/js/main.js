@@ -5,7 +5,8 @@ var simbolos=[];
 var expressao=[]
 var num="";
 var listaA=[]
-var listanumstr=['-1','1','2','3','4','5','0','6','7','8','9']
+var listan=[]
+var listanumstr=['1','2','3','4','5','0','6','7','8','9']
 
 //concatena o numero
 function meunumero(n1)
@@ -44,19 +45,26 @@ function definepainel(event){
     painel.innerHTML+=obj.dataset.simbolo+" "
     listaNumso.push(obj.dataset.simbolo)
     if(validaPrimeiro(listaNumso[0])==false){
+        if(obj.dataset.simbolo=="-" ){
+            alert("clique no botão +/- para deixar o numero negativo")
+           
+        }
+        else{
             alert("pppp")
-            painel.innerHTML="";
+        }
+         painel.innerHTML="";
             
     }else{
       if(obj.dataset.simbolo=="_" && num!=""){
         lista.push(num);
         num="";
       }
+      
     if(obj.dataset.simbolo=="+"||
         obj.dataset.simbolo=="-"||
         obj.dataset.simbolo=="/"||
         obj.dataset.simbolo=="*"||
-        obj.dataset.simbolo=="%"
+        obj.dataset.simbolo=="%" 
         ){
             simbolos.push(obj.dataset.simbolo)
             lista.push(num)
@@ -75,7 +83,7 @@ function valida(){
     listaNumso[tam]=="/" || 
     listaNumso[tam]=="-" || 
     listaNumso[tam]=="+" || 
-    listaNumso[tam]=="_"  &&validaPrimeiro(listaNumso[0])==false
+    listaNumso[tam]=="_"  ||validaPrimeiro(listaNumso[0])==false || listaNumso==[]
     && validaPrimeiro(listaNumso[tam-2])==true
     ){
         alert("operacao invalida!!!")
@@ -85,35 +93,66 @@ function valida(){
     }
 }
 
-//insere na lista
 
 
+//operação
+
+function operacao(){
+    var op
+    var tamSim=simbolos.length;
+    if(tamSim==0)return expressao[0];
+    for(var j=0;j<tamSim;j++){
+        if(simbolos[j]=="*"){
+                op=expressao[j]*expressao[j+1];
+                expressao[j]=op;
+                expressao.splice(j+1,1)
+                simbolos.splice(j,1)
+                j--
+                
+        } 
+       
+}    
+ for(var j=0;j<tamSim;j++){
+    if(simbolos[j]=="+"){
+            op=expressao[j]+expressao[j+1];
+            expressao[j]=op;
+            expressao.splice(j+1,1)
+            simbolos.splice(j,1)
+            j--
+            
+    } 
+   
+}    
+return op;
+ }
 
 //transforma os caracteres em numeros
 function igual(){
     lista.push(num)
     if(lista.length<=16){
-console.log(num);
-    console.log(lista);
-    console.log(listaNumso);
+    /*console.log(lista);
+    console.log(simbolos)*/
+   
     for(var i=0;i<lista.length;i++){
         if(lista[i].match(/./)==1){
             expressao.push(parseFloat(lista[i]))
-            console.log(expressao);
+           
         }if(lista[i].match(/_/)){
             lista[i].slice(0,1);
             var n3=lista[i].slice(1,lista[i].length);
             parseFloat(n3)
             expressao.push(n3*(-1));
-            console.log(expressao);
+           
         }else{
-            lista[i].slice(0,1);
             expressao.push(parseFloat(lista[i]));
-            console.log(expressao);
+            
         }
         
     }
 
+   
+    painel.innerHTML=operacao()    
+    console.log(expressao);
    expressao=[]
 
     }
@@ -126,20 +165,19 @@ console.log(num);
 
 //remove apenas um numero
 function limpaUm(){
-    listaNumso.pop();  
-    lista=[];
-    num=""
+    if(listaNumso[listaNumso,length]==simbolos[simbolos.length])simbolos.pop();
+    if(listaNumso[listaNumso,length]==lista[lista.length])lista.pop();
+    else{
+    listaNumso.pop(); 
     painel.innerHTML="";
+
     for(var p of listaNumso){
-        if(p=="_" && num!=""){
-            lista.push(num);
-            num="";
-          }
-          else{
-            painel.innerHTML+=p+" ";
-            verifica(p);
-        }
+        
+           painel.innerHTML+=p+" ";
+            
+        
     }
+}
 }
  
 function inicia(){
