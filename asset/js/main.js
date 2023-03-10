@@ -47,10 +47,11 @@ function definepainel(event){
     if(validaPrimeiro(listaNumso[0])==false){
         if(obj.dataset.simbolo=="-" ){
             alert("clique no botão +/- para deixar o numero negativo")
-           
+            listaNumso=[]
         }
         else{
-            alert("pppp")
+            alert("Inválido")
+            listaNumso=[]
         }
          painel.innerHTML="";
             
@@ -98,62 +99,66 @@ function valida(){
 //operação
 
 function operacao(){
-    var op
+    var op;
     var tamSim=simbolos.length;
     if(tamSim==0)return expressao[0];
     for(var j=0;j<tamSim;j++){
+        if(simbolos[j]=="/"){
+            op=expressao[j]/expressao[j+1];
+            expressao[j]=op.toFixed(2)
+            expressao.splice(j+1,1)
+            simbolos.splice(j,1)
+            j--;
+        } 
         if(simbolos[j]=="*"){
                 op=expressao[j]*expressao[j+1];
                 expressao[j]=op;
                 expressao.splice(j+1,1)
                 simbolos.splice(j,1)
-                j--
-                
-        } 
-       
-}    
- for(var j=0;j<tamSim;j++){
-    if(simbolos[j]=="+"){
+                j--;     
+        }     
+    }    
+     for(var j=0;j<tamSim;j++){
+          if(simbolos[j]=="+"){
             op=expressao[j]+expressao[j+1];
             expressao[j]=op;
             expressao.splice(j+1,1)
             simbolos.splice(j,1)
-            j--
-            
-    } 
-   
-}    
-return op;
- }
+            j--     
+        } 
+        if(simbolos[j]=="-"){
+            op=expressao[j]-(expressao[j+1]);
+            expressao[j]=op;
+            expressao.splice(j+1,1)
+            simbolos.splice(j,1)
+            j-- 
+        } 
+    }    
+    return op;
+}
 
 //transforma os caracteres em numeros
 function igual(){
     lista.push(num)
     if(lista.length<=16){
-    /*console.log(lista);
-    console.log(simbolos)*/
-   
-    for(var i=0;i<lista.length;i++){
-        if(lista[i].match(/./)==1){
-            expressao.push(parseFloat(lista[i]))
-           
-        }if(lista[i].match(/_/)){
-            lista[i].slice(0,1);
-            var n3=lista[i].slice(1,lista[i].length);
-            parseFloat(n3)
-            expressao.push(n3*(-1));
-           
-        }else{
-            expressao.push(parseFloat(lista[i]));
-            
+        for(var i=0;i<lista.length;i++){
+            if(lista[i].match(/./)==1){
+                    expressao.push(parseFloat(lista[i]))
+                
+            }
+            if(lista[i].match(/_/)){
+                    lista[i].slice(0,1);
+                    var n3=lista[i].slice(1,lista[i].length);
+                    parseFloat(n3)
+                    expressao.push(n3*(-1));
+            }
+            else{
+                expressao.push(parseFloat(lista[i]));   
+            }  
         }
-        
-    }
-
-   
-    painel.innerHTML=operacao()    
-    console.log(expressao);
-   expressao=[]
+        painel.innerHTML=operacao().toFixed(2)    
+        console.log(expressao);
+        expressao=[]
 
     }
     else{
@@ -164,20 +169,43 @@ function igual(){
 }
 
 //remove apenas um numero
-function limpaUm(){
-    if(listaNumso[listaNumso,length]==simbolos[simbolos.length])simbolos.pop();
-    if(listaNumso[listaNumso,length]==lista[lista.length])lista.pop();
-    else{
-    listaNumso.pop(); 
-    painel.innerHTML="";
-
-    for(var p of listaNumso){
-        
-           painel.innerHTML+=p+" ";
+function limpaUm()
+{
+   var concatenas;
+    if(listaNumso[listaNumso.length-1]==simbolos[simbolos.length-1])
+    {
+        simbolos.pop();
+        listaNumso.pop(); 
+        painel.innerHTML="";
+        for(var p of listaNumso)
+        {
             
-        
+            painel.innerHTML+=p+" ";
+        }
     }
-}
+    else{
+        listaNumso.pop(); 
+        painel.innerHTML="";
+
+        for(var p of listaNumso)
+        {
+            if(p=="+"||p=="-"||p=="*"||p=="/"||p=="%"){
+                listaA.push(concatenas)
+                concatenas=""
+            }
+            else{
+                concatenas+=p;
+            }
+            painel.innerHTML+=p+" ";
+        }
+         listaA.push(concatenas)
+    console.log(lista)
+    lista.pop();
+    lista.push(listaA[listaA.length-1]);
+    console.log(lista)
+    listaA=[];
+    }
+   
 }
  
 function inicia(){
@@ -207,10 +235,7 @@ function inicia(){
     document.getElementById("c17").addEventListener("click",definepainel)
     document.getElementById("c18").addEventListener("click",definepainel)
     document.getElementById("c19").addEventListener("click",definepainel)
-    document.getElementById("c20").addEventListener("click",valida)
-
-
-
+    document.getElementById("c20").addEventListener("click",valida);
 }
 
 
