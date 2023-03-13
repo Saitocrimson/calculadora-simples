@@ -3,8 +3,9 @@ var lista=[];
 var listaNumso=[];
 var simbolos=[];
 var expressao=[]
-var num="";
+var num="",num2="";
 var listaA=[]
+var listasA=[]
 var listan=[]
 var listanumstr=['1','2','3','4','5','0','6','7','8','9']
 
@@ -60,12 +61,15 @@ function definepainel(event){
         lista.push(num);
         num="";
       }
-      
+      if(  obj.dataset.simbolo=="%" ){
+        meunumero(obj.dataset.simbolo);
+        lista.push(num);
+
+      }
     if(obj.dataset.simbolo=="+"||
         obj.dataset.simbolo=="-"||
         obj.dataset.simbolo=="/"||
-        obj.dataset.simbolo=="*"||
-        obj.dataset.simbolo=="%" 
+        obj.dataset.simbolo=="*"
         ){
             simbolos.push(obj.dataset.simbolo)
             lista.push(num)
@@ -134,32 +138,55 @@ function operacao(){
             j-- 
         } 
     }    
+    num2=op;
     return op;
 }
 
 //transforma os caracteres em numeros
 function igual(){
+    var numbers=/\d+/g, regex=/^\d+%$/, regex2=/[$-\[\]]/;
+    if(num2!=""){
+        console.log("pp"+num)
+        lista.push(num2.toString());
+        console.log("pp"+num2);
+        console.log("pp sim"+simbolos);
+    }
+    expressao=[]
     lista.push(num)
+    console.log("iii lis"+lista);
+    console.log("iii sim"+simbolos);
     if(lista.length<=16){
         for(var i=0;i<lista.length;i++){
             if(lista[i].match(/./)==1){
-                    expressao.push(parseFloat(lista[i]))
-                
+                    expressao.push(parseFloat(lista[i]))   
             }
             if(lista[i].match(/_/)){
-                    lista[i].slice(0,1);
-                    var n3=lista[i].slice(1,lista[i].length);
+                console.log(lista[i])
+                    var n3=lista[i].replaceAll('_', '');
+                    console.log(n3)
                     parseFloat(n3)
-                    expressao.push(n3*(-1));
+                    expressao.push(n3*(-1));   
             }
-            else{
-                expressao.push(parseFloat(lista[i]));   
-            }  
+            else if(lista[i].match(regex)){
+                var n3=lista[i].slice(0,1);
+                n3=n3/100
+                parseFloat(n3)
+                expressao.push(n3);
+                
+                
+                
         }
-        painel.innerHTML=operacao().toFixed(2)    
+            else if(lista[i].match(numbers)){
+                expressao.push(parseFloat(lista[i]));   
+                
+                      
+        }  
+        }
+        console.log("antes "+expressao);
+        lista=[]
+        painel.innerHTML=operacao().toFixed(2)   
         console.log(expressao);
-        expressao=[]
-
+        
     }
     else{
         alert("Limite excedido")
@@ -171,39 +198,31 @@ function igual(){
 //remove apenas um numero
 function limpaUm()
 {
-   var concatenas;
-    if(listaNumso[listaNumso.length-1]==simbolos[simbolos.length-1])
-    {
-        simbolos.pop();
-        listaNumso.pop(); 
-        painel.innerHTML="";
-        for(var p of listaNumso)
-        {
-            
-            painel.innerHTML+=p+" ";
-        }
-    }
-    else{
-        listaNumso.pop(); 
-        painel.innerHTML="";
+ 
 
+        simbolos=[]
+        lista=[];
+        listaNumso.pop(); 
+        painel.innerHTML="";
+        num="";
+        num2=""
         for(var p of listaNumso)
         {
             if(p=="+"||p=="-"||p=="*"||p=="/"||p=="%"){
-                listaA.push(concatenas)
-                concatenas=""
+                simbolos.push(p);
+                lista.push(num)
+                num=""
             }
             else{
-                concatenas+=p;
+               meunumero(p);
             }
-            painel.innerHTML+=p+" ";
         }
-         listaA.push(concatenas)
-    console.log(lista)
-    lista.pop();
-    lista.push(listaA[listaA.length-1]);
-    console.log(lista)
-    listaA=[];
+    console.log("ddsds"+lista)
+    
+      for(var p of listaNumso)
+        {
+            
+            painel.innerHTML+=p+" ";
     }
    
 }
