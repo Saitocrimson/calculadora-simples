@@ -61,20 +61,23 @@ function definepainel(event){
         lista.push(num);
         num="";
       }
-      if(  obj.dataset.simbolo=="%" ){
-        meunumero(obj.dataset.simbolo);
-        lista.push(num);
-
+      
+      if(obj.dataset.simbolo=="%"  && num!=""){
+        meunumero("x");
       }
+      
+     
     if(obj.dataset.simbolo=="+"||
         obj.dataset.simbolo=="-"||
         obj.dataset.simbolo=="/"||
-        obj.dataset.simbolo=="*"
+        obj.dataset.simbolo=="*" ||
+        obj.dataset.simbolo=="%"
         ){
             simbolos.push(obj.dataset.simbolo)
             lista.push(num)
             num=""
         }
+     
         else{
             meunumero(obj.dataset.simbolo)
         }
@@ -107,6 +110,21 @@ function operacao(){
     var tamSim=simbolos.length;
     if(tamSim==0)return expressao[0];
     for(var j=0;j<tamSim;j++){
+        if(simbolos[j]=="%"){
+            op=expressao[j]/100
+            console.log(op)
+            expressao[j]=parseFloat(op)
+            if(simbolos[j-1]=="+"){
+                op=expressao[j-1]*expressao[j];
+                expressao[j]=op
+                console.log(op)
+                simbolos.splice(j,1)
+                j--;
+            }
+        } 
+    }  
+    console.log(expressao)
+    for(var j=0;j<tamSim;j++){
         if(simbolos[j]=="/"){
             op=expressao[j]/expressao[j+1];
             expressao[j]=op.toFixed(2)
@@ -122,12 +140,14 @@ function operacao(){
                 j--;     
         }     
     }    
+   
      for(var j=0;j<tamSim;j++){
           if(simbolos[j]=="+"){
             op=expressao[j]+expressao[j+1];
             expressao[j]=op;
             expressao.splice(j+1,1)
             simbolos.splice(j,1)
+       
             j--     
         } 
         if(simbolos[j]=="-"){
@@ -138,21 +158,21 @@ function operacao(){
             j-- 
         } 
     }    
+   
     num2=op;
     return op;
 }
 
 //transforma os caracteres em numeros
 function igual(){
-    var numbers=/\d+/g, regex=/^\d+%$/, regex2=/[$-\[\]]/;
+    var numbers=/\d+/g, regex1=/(\d+(\.\d+)?%)/,regex2=/[$-\[\]]/;
+    expressao=[]
     if(num2!=""){
-        console.log("pp"+num)
-        lista.push(num2.toString());
-        console.log("pp"+num2);
+        lista[0]=num2.toString();
         console.log("pp sim"+simbolos);
     }
-    expressao=[]
     lista.push(num)
+
     console.log("iii lis"+lista);
     console.log("iii sim"+simbolos);
     if(lista.length<=16){
@@ -160,17 +180,19 @@ function igual(){
             if(lista[i].match(/./)==1){
                     expressao.push(parseFloat(lista[i]))   
             }
-            if(lista[i].match(/_/)){
+            else if(lista[i].match(/_/)){
                 console.log(lista[i])
                     var n3=lista[i].replaceAll('_', '');
                     console.log(n3)
                     parseFloat(n3)
                     expressao.push(n3*(-1));   
             }
-            else if(lista[i].match(regex)){
-                var n3=lista[i].slice(0,1);
-                n3=n3/100
+            else if(lista[i].match(/x/)){
+               
+                var n3=lista[i].replaceAll('x', '');
+
                 parseFloat(n3)
+                console.log("ppp"+n3)
                 expressao.push(n3);
                 
                 
@@ -183,10 +205,10 @@ function igual(){
         }  
         }
         console.log("antes "+expressao);
-        lista=[]
-        painel.innerHTML=operacao().toFixed(2)   
-        console.log(expressao);
-        
+        painel.innerHTML=operacao()
+        console.log(expressao);  
+        lista=[];
+        simbolos=[]
     }
     else{
         alert("Limite excedido")
