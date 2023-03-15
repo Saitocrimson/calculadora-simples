@@ -111,9 +111,7 @@ function operacao(){
     if(tamSim==0)return expressao[0];
     for(var j=0;j<tamSim;j++){
         if(simbolos[j]=="%"){
-            op=expressao[j]/100
-            console.log(op)
-            expressao[j]=parseFloat(op)
+            expressao[j]=parseFloat(expressao[j]/100)
             if(simbolos[j-1]=="+"){
                 op=expressao[j-1]*expressao[j];
                 expressao[j]=op
@@ -121,9 +119,21 @@ function operacao(){
                 simbolos.splice(j,1)
                 j--;
             }
+            if(simbolos[j-1]=="-"){
+                op=(expressao[j-1])*expressao[j];
+                expressao[j]=op
+                simbolos[j-1]="por"
+                simbolos.splice(j,1)
+                console.log(op)
+                j--;
+            }
+        
+              
+            
         } 
     }  
     console.log(expressao)
+    console.log(simbolos)
     for(var j=0;j<tamSim;j++){
         if(simbolos[j]=="/"){
             op=expressao[j]/expressao[j+1];
@@ -149,14 +159,24 @@ function operacao(){
             simbolos.splice(j,1)
        
             j--     
-        } 
+        }  
         if(simbolos[j]=="-"){
             op=expressao[j]-(expressao[j+1]);
+            console.log(expressao[j]-expressao[j+1])
             expressao[j]=op;
             expressao.splice(j+1,1)
             simbolos.splice(j,1)
             j-- 
         } 
+        if(simbolos[j]=="por"){
+            op=expressao[j]+(-1*expressao[j+1]);
+            console.log("lalalal "+op)
+            expressao[j]=op;
+            expressao.splice(j+1,1)
+            simbolos.splice(j,1)
+            j-- 
+        } 
+        
     }    
    
     num2=op;
@@ -259,6 +279,7 @@ function inicia(){
         listaNumso=[];
         simbolos=[];
         num=""
+        num2=""
     })
     document.getElementById("c4").addEventListener("click",definepainel)
     document.getElementById("c5").addEventListener("click",definepainel)
