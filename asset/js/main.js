@@ -4,9 +4,9 @@ var listaNumso=[];
 var simbolos=[];
 var expressao=[]
 var num="",num2="";
-var listaA=[]
-var listasA=[]
-var listan=[]
+//var listaA=[]
+//var listasA=[]
+//var listan=[]
 var listanumstr=['1','2','3','4','5','0','6','7','8','9']
 
 //concatena o numero
@@ -65,17 +65,19 @@ function definepainel(event){
       if(obj.dataset.simbolo=="%"  && num!=""){
         meunumero("x");
       }
-      
-     
+      if(obj.dataset.simbolo=="="){
+        lista.push(num) 
+        valida();
+     }
     if(obj.dataset.simbolo=="+"||
         obj.dataset.simbolo=="-"||
         obj.dataset.simbolo=="/"||
         obj.dataset.simbolo=="*" ||
-        obj.dataset.simbolo=="%"
-        ){
+        obj.dataset.simbolo=="%"){
             simbolos.push(obj.dataset.simbolo)
             lista.push(num)
             num=""
+            console.log("8888 "+lista)
         }
      
         else{
@@ -178,8 +180,9 @@ function operacao(){
         } 
         
     }    
-   
+    lista=[]
     num2=op;
+    lista[0]=num2.toString();
     return op;
 }
 
@@ -187,20 +190,20 @@ function operacao(){
 function igual(){
     var numbers=/\d+/g, regex1=/(\d+(\.\d+)?%)/,regex2=/[$-\[\]]/;
     expressao=[]
-    if(num2!=""){
-        lista[0]=num2.toString();
-        console.log("pp sim"+simbolos);
-    }
-    lista.push(num)
-
+    console.log("xxx lis"+lista);
     console.log("iii lis"+lista);
     console.log("iii sim"+simbolos);
+    if(lista[0]==num2.toString()){
+        for(var i=0;i<lista.length;i++){
+                if(lista[i]=="="){
+                lista.splice(i,1)   
+            }
+    }
+}
+console.log("yyi lis"+lista);
     if(lista.length<=16){
         for(var i=0;i<lista.length;i++){
-            if(lista[i].match(/./)==1){
-                    expressao.push(parseFloat(lista[i]))   
-            }
-            else if(lista[i].match(/_/)){
+         if(lista[i].match(/_/)){
                 console.log(lista[i])
                     var n3=lista[i].replaceAll('_', '');
                     console.log(n3)
@@ -218,7 +221,7 @@ function igual(){
                 
                 
         }
-            else if(lista[i].match(numbers)){
+            else if(lista[i].match(numbers) ||lista[i].match(/./)){
                 expressao.push(parseFloat(lista[i]));   
                 
                       
@@ -227,8 +230,8 @@ function igual(){
         console.log("antes "+expressao);
         painel.innerHTML=operacao()
         console.log(expressao);  
-        lista=[];
-        simbolos=[]
+      /*  lista=[];
+        simbolos=[]*/
     }
     else{
         alert("Limite excedido")
@@ -255,6 +258,7 @@ function limpaUm()
                 lista.push(num)
                 num=""
             }
+           
             else{
                meunumero(p);
             }
@@ -297,7 +301,7 @@ function inicia(){
     document.getElementById("c17").addEventListener("click",definepainel)
     document.getElementById("c18").addEventListener("click",definepainel)
     document.getElementById("c19").addEventListener("click",definepainel)
-    document.getElementById("c20").addEventListener("click",valida);
+    document.getElementById("c20").addEventListener("click",definepainel);
 }
 
 
