@@ -1,12 +1,9 @@
 var painel=document.getElementById("campoTela")
 var lista=[];
-var listaNumso=[];
+var listaNumTudo=[];
 var simbolos=[];
 var expressao=[]
 var num="",num2="";
-//var listaA=[]
-//var listasA=[]
-//var listan=[]
 var listanumstr=['1','2','3','4','5','0','6','7','8','9']
 
 //concatena o numero
@@ -29,7 +26,7 @@ function verifica(n2){
 }
 
 //valida o primeiro numero digitado
-function validaPrimeiro(n4){
+function validaPrimeiroNumero(n4){
     if(n4=="_")return true
     for(var compara of listanumstr){
         if(compara==n4){
@@ -40,61 +37,60 @@ function validaPrimeiro(n4){
 }
 
 //pega os valores digitados e separa
-function definepainel(event){
+function calculadoraConcatena(event){
      var obj=event.target;
-     var ver;
     painel.innerHTML+=obj.dataset.simbolo+" "
-    listaNumso.push(obj.dataset.simbolo)
-    if(validaPrimeiro(listaNumso[0])==false){
+    listaNumTudo.push(obj.dataset.simbolo)
+    if(validaPrimeiroNumero(listaNumTudo[0])==false){
         if(obj.dataset.simbolo=="-" ){
             alert("clique no botão +/- para deixar o numero negativo")
-            listaNumso=[]
+            listaNumTudo=[]
         }
         else{
             alert("Inválido")
-            listaNumso=[]
+            listaNumTudo=[]
         }
          painel.innerHTML="";
+    }
+    else{
+            if(obj.dataset.simbolo=="_" && num!=""){
+                lista.push(num);
+                num="";
+            }
             
-    }else{
-      if(obj.dataset.simbolo=="_" && num!=""){
-        lista.push(num);
-        num="";
-      }
-      
-      if(obj.dataset.simbolo=="%"  && num!=""){
-        meunumero("x");
-      }
-      if(obj.dataset.simbolo=="="){
-        lista.push(num) 
-        valida();
-     }
-    if(obj.dataset.simbolo=="+"||
-        obj.dataset.simbolo=="-"||
-        obj.dataset.simbolo=="/"||
-        obj.dataset.simbolo=="*" ||
-        obj.dataset.simbolo=="%"){
-            simbolos.push(obj.dataset.simbolo)
-            lista.push(num)
-            num=""
-            console.log("8888 "+lista)
-        }
+            if(obj.dataset.simbolo=="%"  && num!=""){
+                meunumero("x");
+            }
+            if(obj.dataset.simbolo=="="){
+                lista.push(num) 
+                valida();
+            }
+            if(obj.dataset.simbolo=="+"||
+                obj.dataset.simbolo=="-"||
+                obj.dataset.simbolo=="/"||
+                obj.dataset.simbolo=="*" ||
+                obj.dataset.simbolo=="%"){
+                    simbolos.push(obj.dataset.simbolo)
+                    lista.push(num)
+                    num=""
+                    console.log("8888 "+lista)
+            }
      
-        else{
-            meunumero(obj.dataset.simbolo)
-        }
+            else{
+                meunumero(obj.dataset.simbolo)
+            }
     }
 }
 
 //verifica antes da operação se o ultimo caracter e um numero
 function valida(){
-    var tam=listaNumso.length-1;
-    if(listaNumso[tam]=="*" || 
-    listaNumso[tam]=="/" || 
-    listaNumso[tam]=="-" || 
-    listaNumso[tam]=="+" || 
-    listaNumso[tam]=="_"  ||validaPrimeiro(listaNumso[0])==false || listaNumso==[]
-    && validaPrimeiro(listaNumso[tam-2])==true
+    var tam=listaNumTudo.length-1;
+    if(listaNumTudo[tam]=="*" || 
+    listaNumTudo[tam]=="/" || 
+    listaNumTudo[tam]=="-" || 
+    listaNumTudo[tam]=="+" || 
+    listaNumTudo[tam]=="_"  ||validaPrimeiroNumero(listaNumTudo[0])==false || listaNumTudo==[]
+    && validaPrimeiroNumero(listaNumTudo[tam-2])==true
     ){
         alert("operacao invalida!!!")
     }else{
@@ -134,8 +130,8 @@ function operacao(){
             
         } 
     }  
-    console.log(expressao)
-    console.log(simbolos)
+   /* console.log(expressao)
+    console.log(simbolos)*/
     for(var j=0;j<tamSim;j++){
         if(simbolos[j]=="/"){
             op=expressao[j]/expressao[j+1];
@@ -198,60 +194,48 @@ function igual(){
                 if(lista[i]=="="){
                 lista.splice(i,1)   
             }
+        }
     }
-}
-console.log("yyi lis"+lista);
+    console.log("yyi lis"+lista);
     if(lista.length<=16){
         for(var i=0;i<lista.length;i++){
-         if(lista[i].match(/_/)){
-                console.log(lista[i])
-                    var n3=lista[i].replaceAll('_', '');
-                    console.log(n3)
-                    parseFloat(n3)
-                    expressao.push(n3*(-1));   
-            }
+            if(lista[i].match(/_/)){
+                        //console.log(lista[i])
+                        var n3=lista[i].replaceAll('_', '');
+                        console.log(n3)
+                        parseFloat(n3)
+                        expressao.push(n3*(-1));   
+                }
             else if(lista[i].match(/x/)){
-               
-                var n3=lista[i].replaceAll('x', '');
-
-                parseFloat(n3)
-                console.log("ppp"+n3)
-                expressao.push(n3);
-                
-                
-                
-        }
+                    var n3=lista[i].replaceAll('x', '');
+                    parseFloat(n3)
+                    //console.log("ppp"+n3)
+                    expressao.push(n3);       
+            }
             else if(lista[i].match(numbers) ||lista[i].match(/./)){
-                expressao.push(parseFloat(lista[i]));   
-                
-                      
-        }  
+                    expressao.push(parseFloat(lista[i]));            
+            }  
         }
-        console.log("antes "+expressao);
-        painel.innerHTML=operacao()
-        console.log(expressao);  
-      /*  lista=[];
-        simbolos=[]*/
+           // console.log("antes "+expressao);
+            painel.innerHTML=operacao()
+           // console.log(expressao);  
     }
     else{
         alert("Limite excedido")
-    }
+     }
     
-  
 }
 
 //remove apenas um numero
 function limpaUm()
 {
- 
-
         simbolos=[]
         lista=[];
-        listaNumso.pop(); 
+        listaNumTudo.pop(); 
         painel.innerHTML="";
         num="";
         num2=""
-        for(var p of listaNumso)
+        for(var p of listaNumTudo)
         {
             if(p=="+"||p=="-"||p=="*"||p=="/"||p=="%"){
                 simbolos.push(p);
@@ -263,45 +247,44 @@ function limpaUm()
                meunumero(p);
             }
         }
-    console.log("ddsds"+lista)
+    //console.log("ddsds"+lista)
     
-      for(var p of listaNumso)
-        {
-            
+      for(var p of listaNumTudo)
+        {  
             painel.innerHTML+=p+" ";
-    }
+        }
    
 }
  
 function inicia(){
-    document.getElementById("c1").addEventListener("click",definepainel)
+    document.getElementById("c1").addEventListener("click",calculadoraConcatena)
     document.getElementById("c2").addEventListener("click",limpaUm)
     document.getElementById("c3").addEventListener("click",function() {
         //limpa tudo
         painel.innerHTML="";
         lista=[];
-        listaNumso=[];
+        listaNumTudo=[];
         simbolos=[];
         num=""
         num2=""
     })
-    document.getElementById("c4").addEventListener("click",definepainel)
-    document.getElementById("c5").addEventListener("click",definepainel)
-    document.getElementById("c6").addEventListener("click",definepainel)
-    document.getElementById("c7").addEventListener("click",definepainel)
-    document.getElementById("c8").addEventListener("click",definepainel)
-    document.getElementById("c9").addEventListener("click",definepainel)
-    document.getElementById("c10").addEventListener("click",definepainel)
-    document.getElementById("c11").addEventListener("click",definepainel)
-    document.getElementById("c12").addEventListener("click",definepainel)
-    document.getElementById("c13").addEventListener("click",definepainel)
-    document.getElementById("c14").addEventListener("click",definepainel)
-    document.getElementById("c15").addEventListener("click",definepainel)
-    document.getElementById("c16").addEventListener("click",definepainel)
-    document.getElementById("c17").addEventListener("click",definepainel)
-    document.getElementById("c18").addEventListener("click",definepainel)
-    document.getElementById("c19").addEventListener("click",definepainel)
-    document.getElementById("c20").addEventListener("click",definepainel);
+    document.getElementById("c4").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c5").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c6").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c7").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c8").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c9").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c10").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c11").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c12").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c13").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c14").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c15").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c16").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c17").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c18").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c19").addEventListener("click",calculadoraConcatena)
+    document.getElementById("c20").addEventListener("click",calculadoraConcatena);
 }
 
 
