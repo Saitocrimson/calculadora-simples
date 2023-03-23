@@ -28,6 +28,9 @@ function verifica(n2){
 //valida o primeiro numero digitado
 function validaPrimeiroNumero(n4){
     if(n4=="_")return true
+    if(typeof parseFloat(n4)===Number){
+        console.log(n4);
+        return true}
     for(var compara of listanumstr){
         if(compara==n4){
             return true
@@ -41,13 +44,22 @@ function calculadoraConcatena(event){
      var obj=event.target;
     painel.innerHTML+=obj.dataset.simbolo+" "
     listaNumTudo.push(obj.dataset.simbolo)
+    if(num2!=""  && validaPrimeiroNumero(listaNumTudo[1])==true && validaPrimeiroNumero(obj.dataset.simbolo)==true){
+        listaNumTudo.splice(0,1);
+        lista=[]
+        num2=""
+        num=""
+        painel.innerHTML="";
+        painel.innerHTML+=obj.dataset.simbolo+" "
+
+    }
     if(validaPrimeiroNumero(listaNumTudo[0])==false){
         if(obj.dataset.simbolo=="-" ){
             alert("clique no botão +/- para deixar o numero negativo")
             listaNumTudo=[]
         }
         else{
-            alert("Inválido")
+            alert("Inválido ")
             listaNumTudo=[]
         }
          painel.innerHTML="";
@@ -176,9 +188,12 @@ function operacao(){
         } 
         
     }    
-    lista=[]
+    lista=[];
     num2=op;
     lista[0]=num2.toString();
+    listaNumTudo=[]
+    listaNumTudo[0]=num2.toString();
+    console.log("sjaduhbaihsaiuf "+lista)
     return op;
 }
 
@@ -195,6 +210,11 @@ function igual(){
                 lista.splice(i,1)   
             }
         }
+        for(var i=0;i<listaNumTudo.length;i++){
+            if(listaNumTudo[i]=="="){
+                listaNumTudo.splice(i,1)   
+        }
+    }
     }
     console.log("yyi lis"+lista);
     if(lista.length<=16){
