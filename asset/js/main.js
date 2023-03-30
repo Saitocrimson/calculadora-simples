@@ -4,12 +4,12 @@ var listaNumTudo=[];
 var simbolos=[];
 var expressao=[]
 var num="",num2="";
-var listanumstr=['1','2','3','4','5','0','6','7','8','9']
 
 //concatena o numero
 function meunumero(n1)
 {
-    num+=n1;
+    if(n1!="=")num+=n1;
+ 
 }
 
 //refaz a lista
@@ -28,15 +28,13 @@ function verifica(n2){
 //valida o primeiro numero digitado
 function validaPrimeiroNumero(n4){
     if(n4=="_")return true
-    if(typeof parseFloat(n4)===Number){
-        console.log(n4);
-        return true}
-    for(var compara of listanumstr){
-        if(compara==n4){
-            return true
-        }
+    if(typeof n4=== "number"){
+        return true
     }
-    return false
+    if(typeof parseInt(n4)!=="number"){
+        return false
+    }
+
 }
 
 //pega os valores digitados e separa
@@ -44,7 +42,7 @@ function calculadoraConcatena(event){
      var obj=event.target;
     painel.innerHTML+=obj.dataset.simbolo+" "
     listaNumTudo.push(obj.dataset.simbolo)
-    if(num2!=""  && validaPrimeiroNumero(listaNumTudo[1])==true && validaPrimeiroNumero(obj.dataset.simbolo)==true){
+    if(validaPrimeiroNumero(num2)==true && validaPrimeiroNumero(listaNumTudo[1])==true && validaPrimeiroNumero(obj.dataset.simbolo)==true && obj.dataset.simbolo!="="){
         listaNumTudo.splice(0,1);
         lista=[]
         num2=""
@@ -53,13 +51,13 @@ function calculadoraConcatena(event){
         painel.innerHTML+=obj.dataset.simbolo+" "
 
     }
-    if(validaPrimeiroNumero(listaNumTudo[0])==false){
-        if(obj.dataset.simbolo=="-" ){
+    if(validaPrimeiroNumero(listaNumTudo[0])==false && validaPrimeiroNumero(num2)==false && validaPrimeiroNumero(lista[0])==false  ){
+        if(obj.dataset.simbolo=="-"){
             alert("clique no botão +/- para deixar o numero negativo")
             listaNumTudo=[]
         }
         else{
-            alert("Inválido ")
+            alert("Inválido, adicone o numero primeiro "+ lista[0])
             listaNumTudo=[]
         }
          painel.innerHTML="";
@@ -142,8 +140,8 @@ function operacao(){
             
         } 
     }  
-   /* console.log(expressao)
-    console.log(simbolos)*/
+    console.log("fase 1 ok"+ expressao) 
+    console.log(simbolos)
     for(var j=0;j<tamSim;j++){
         if(simbolos[j]=="/"){
             op=expressao[j]/expressao[j+1];
@@ -160,10 +158,11 @@ function operacao(){
                 j--;     
         }     
     }    
-   
+    console.log("fase 2 ok"+ expressao) 
+    console.log(simbolos)
      for(var j=0;j<tamSim;j++){
           if(simbolos[j]=="+"){
-            op=expressao[j]+expressao[j+1];
+            op=parseFloat(expressao[j])+parseFloat(expressao[j+1]);
             expressao[j]=op;
             expressao.splice(j+1,1)
             simbolos.splice(j,1)
@@ -188,10 +187,12 @@ function operacao(){
         } 
         
     }    
+    console.log("fase 3 ok"+ expressao) 
+    console.log(simbolos)
     lista=[];
+    listaNumTudo=[] 
     num2=op;
     lista[0]=num2.toString();
-    listaNumTudo=[]
     listaNumTudo[0]=num2.toString();
     console.log("sjaduhbaihsaiuf "+lista)
     return op;
@@ -206,7 +207,7 @@ function igual(){
     console.log("iii sim"+simbolos);
     if(lista[0]==num2.toString()){
         for(var i=0;i<lista.length;i++){
-                if(lista[i]=="="){
+                if(lista[i]=="=" || lista[i]==""){
                 lista.splice(i,1)   
             }
         }
@@ -306,10 +307,5 @@ function inicia(){
     document.getElementById("c19").addEventListener("click",calculadoraConcatena)
     document.getElementById("c20").addEventListener("click",calculadoraConcatena);
 }
-
-
-
-
-
 
 window.addEventListener("load", inicia)
