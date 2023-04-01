@@ -1,7 +1,7 @@
 #campoC{
     width: 600px;
     height:700px;
-    background-color:slateblue;
+ 
     margin:0;
     padding:0;
     display:flex;
@@ -16,7 +16,7 @@
 #campoNum{
     width: 448px;
     height:65px;
-    background-color: aquamarine;
+    background-color:#ae37ff;
     border: 0.25em solid black;
     display:flex;
     align-items:center;
@@ -29,12 +29,11 @@
     background-color: azure;
     display: flex;
     flex-direction:row-reverse;
-    color:red;
+    color:#3c0064;
 }
 #campoTeclado{
     width: 450px;
     height:550px;
-    background-color:slateblue;
     margin:0;
     padding:0;
     display:flex;
@@ -45,7 +44,7 @@
 .formatoBotaos{
     width: 112.5px;
     height:110px;
-    background-color:seagreen;
+    background-color:#e3b9ff;
     font-size: 20px;
     display: flex;
     align-items: center;
@@ -54,7 +53,7 @@
 
 }
 .formatoBotaos:hover{
-    background-color: cadetblue;
+    background-color:#ba55ff;
     cursor: pointer;
 
 }

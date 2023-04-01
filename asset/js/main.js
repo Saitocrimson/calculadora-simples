@@ -9,7 +9,6 @@ var num="",num2="";
 function meunumero(n1)
 {
     if(n1!="=")num+=n1;
- 
 }
 
 //refaz a lista
@@ -39,7 +38,7 @@ function validaPrimeiroNumero(n4){
 
 //pega os valores digitados e separa
 function calculadoraConcatena(event){
-     var obj=event.target;
+    var obj=event.target;
     painel.innerHTML+=obj.dataset.simbolo+" "
     listaNumTudo.push(obj.dataset.simbolo)
     if(validaPrimeiroNumero(num2)==true && validaPrimeiroNumero(listaNumTudo[1])==true && validaPrimeiroNumero(obj.dataset.simbolo)==true && obj.dataset.simbolo!="="){
@@ -75,15 +74,15 @@ function calculadoraConcatena(event){
                 lista.push(num) 
                 valida();
             }
-            if(obj.dataset.simbolo=="+"||
-                obj.dataset.simbolo=="-"||
-                obj.dataset.simbolo=="/"||
+            if( obj.dataset.simbolo=="+" ||
+                obj.dataset.simbolo=="-" ||
+                obj.dataset.simbolo=="/" ||
                 obj.dataset.simbolo=="*" ||
                 obj.dataset.simbolo=="%"){
                     simbolos.push(obj.dataset.simbolo)
                     lista.push(num)
                     num=""
-                    console.log("8888 "+lista)
+                    console.log("Numero inserido na lista: "+lista)
             }
      
             else{
@@ -95,12 +94,12 @@ function calculadoraConcatena(event){
 //verifica antes da operação se o ultimo caracter e um numero
 function valida(){
     var tam=listaNumTudo.length-1;
-    if(listaNumTudo[tam]=="*" || 
-    listaNumTudo[tam]=="/" || 
-    listaNumTudo[tam]=="-" || 
-    listaNumTudo[tam]=="+" || 
-    listaNumTudo[tam]=="_"  ||validaPrimeiroNumero(listaNumTudo[0])==false || listaNumTudo==[]
-    && validaPrimeiroNumero(listaNumTudo[tam-2])==true
+    if( listaNumTudo[tam]=="*" || 
+        listaNumTudo[tam]=="/" || 
+        listaNumTudo[tam]=="-" || 
+        listaNumTudo[tam]=="+" || 
+        listaNumTudo[tam]=="_"  ||validaPrimeiroNumero(listaNumTudo[0])==false || listaNumTudo==[]
+        && validaPrimeiroNumero(listaNumTudo[tam-2])==true
     ){
         alert("operacao invalida!!!")
     }else{
@@ -135,12 +134,10 @@ function operacao(){
                 console.log(op)
                 j--;
             }
-        
-              
             
-        } 
     }  
-    console.log("fase 1 ok"+ expressao) 
+}
+    console.log("fase 1 ok: "+ expressao+ " simbolos "+simbolos) 
     console.log(simbolos)
     for(var j=0;j<tamSim;j++){
         if(simbolos[j]=="/"){
@@ -158,9 +155,8 @@ function operacao(){
                 j--;     
         }     
     }    
-    console.log("fase 2 ok"+ expressao) 
-    console.log(simbolos)
-     for(var j=0;j<tamSim;j++){
+    console.log("fase 2 ok: "+ expressao +  " simbolos "+simbolos) 
+    for(var j=0;j<tamSim;j++){
           if(simbolos[j]=="+"){
             op=parseFloat(expressao[j])+parseFloat(expressao[j+1]);
             expressao[j]=op;
@@ -187,14 +183,14 @@ function operacao(){
         } 
         
     }    
-    console.log("fase 3 ok"+ expressao) 
-    console.log(simbolos)
+    console.log("fase 3 ok: "+ expressao + " simbolos "+simbolos) 
     lista=[];
     listaNumTudo=[] 
+    simbolos=[]
     num2=op;
     lista[0]=num2.toString();
     listaNumTudo[0]=num2.toString();
-    console.log("sjaduhbaihsaiuf "+lista)
+    console.log("lista atual: "+lista)
     return op;
 }
 
@@ -202,9 +198,8 @@ function operacao(){
 function igual(){
     var numbers=/\d+/g, regex1=/(\d+(\.\d+)?%)/,regex2=/[$-\[\]]/;
     expressao=[]
-    console.log("xxx lis"+lista);
-    console.log("iii lis"+lista);
-    console.log("iii sim"+simbolos);
+    console.log("lista atual antes : "+lista);
+    console.log("simbolos atual: "+simbolos);
     if(lista[0]==num2.toString()){
         for(var i=0;i<lista.length;i++){
                 if(lista[i]=="=" || lista[i]==""){
@@ -217,11 +212,10 @@ function igual(){
         }
     }
     }
-    console.log("yyi lis"+lista);
+    console.log("lista atual agora : "+lista);
     if(lista.length<=16){
         for(var i=0;i<lista.length;i++){
             if(lista[i].match(/_/)){
-                        //console.log(lista[i])
                         var n3=lista[i].replaceAll('_', '');
                         console.log(n3)
                         parseFloat(n3)
@@ -230,16 +224,15 @@ function igual(){
             else if(lista[i].match(/x/)){
                     var n3=lista[i].replaceAll('x', '');
                     parseFloat(n3)
-                    //console.log("ppp"+n3)
                     expressao.push(n3);       
             }
             else if(lista[i].match(numbers) ||lista[i].match(/./)){
                     expressao.push(parseFloat(lista[i]));            
             }  
         }
-           // console.log("antes "+expressao);
+          
             painel.innerHTML=operacao()
-           // console.log(expressao);  
+          
     }
     else{
         alert("Limite excedido")
@@ -263,13 +256,10 @@ function limpaUm()
                 lista.push(num)
                 num=""
             }
-           
             else{
                meunumero(p);
             }
         }
-    //console.log("ddsds"+lista)
-    
       for(var p of listaNumTudo)
         {  
             painel.innerHTML+=p+" ";
@@ -305,7 +295,7 @@ function inicia(){
     document.getElementById("c17").addEventListener("click",calculadoraConcatena)
     document.getElementById("c18").addEventListener("click",calculadoraConcatena)
     document.getElementById("c19").addEventListener("click",calculadoraConcatena)
-    document.getElementById("c20").addEventListener("click",calculadoraConcatena);
+    document.getElementById("c20").addEventListener("click",calculadoraConcatena)
 }
 
-window.addEventListener("load", inicia)
+window.addEventListener("load", inicia);
